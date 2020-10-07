@@ -1,8 +1,10 @@
 
+var DELAYED_TIME=10;
+
 function dealKB(e){
 	var key = e.key;
 	var curTime = new Date().getTime();
-	if(curTime-lastHit<50){
+	if(curTime-lastHit<DELAYED_TIME){
 		return;
 	}
 	lastHit=curTime;
