@@ -101,7 +101,7 @@ function Init(){
 	ROW = HEIGHT/BLOCK_SIZE;
 	for(var i=0;i<(WIDTH*HEIGHT)/(BLOCK_SIZE*BLOCK_SIZE);i++)Board.push(COLOR_NONE);
 	
-	nextBlock = new Block(randomType(),randomColor(),randomInt(8),0);
+	nextBlock = new Block(randomType(),randomColor(),randomInt(10),0);
 	
 	/*for(var i=0;i<1;i++){
 		for(var j=0;j<8;j++){
@@ -127,7 +127,7 @@ function drawFrame(){
 function moveBlock(){
 	if(curBlock==null){
 		curBlock = nextBlock;
-		nextBlock = new Block(randomType(),randomColor(),randomInt(8),0);
+		nextBlock = new Block(randomType(),randomColor(),randomInt(10),0);
 		if(SetBlock(curBlock)==false)return -1;
 		return 1;
 	}else{
