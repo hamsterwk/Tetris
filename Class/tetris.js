@@ -102,7 +102,7 @@ function drawFrame(){
 
 function moveBlock(){
 	if(curBlock==null){
-		curBlock = new Block(randomType,randomColor(),randomInt(8),0);
+		curBlock = new Block(randomType(),randomColor(),randomInt(8),0);
 		if(SetBlock(curBlock)==false)return -1;
 		return 1;
 	}else{
@@ -138,6 +138,7 @@ function clearFull(){
 
 function Main(){
 	var result = moveBlock();
+	//console.log(result);
 	if(result==-1){
 		alert("You Lose....");
 		MainInt = clearInterval(MainInt);
@@ -151,6 +152,8 @@ function Main(){
 }
 
 function refresh(){
+	points=[];
+	colors=[];
 	drawFrame();
 	drawLines();
 	render(gl.TRIANGLES);

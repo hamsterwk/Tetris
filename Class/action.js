@@ -1,6 +1,11 @@
 
 function dealKB(e){
 	var key = e.key;
+	var curTime = new Date().getTime();
+	if(curTime-lastHit<50){
+		return;
+	}
+	lastHit=curTime;
 	//document.getElementById("keyId").innerText = key;
 	switch(key){
 		case "a":
@@ -30,9 +35,13 @@ function dealKB(e){
 			break;
 	}
 }
+
+var lastHit;
+
 window.onload = function(){
 	document.getElementById("Btn").onclick=function(){
 		document.onkeypress=dealKB;
 		BeginNewGame();
 	}
+	lastHit =new Date().getTime();
 }
