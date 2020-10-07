@@ -78,6 +78,8 @@ function Init(){
 	Board=[];
 	curBlock=null;
 	score=0;
+	Paused=0;
+	document.getElementById("BtnPause").innerText="Pause Game";
 	if(MainInt!=null)MainInt=clearInterval(MainInt);
 	document.getElementById("Score").innerText=score;
 	canvas = document.getElementById( "gl-canvas" );
@@ -200,7 +202,7 @@ function Main(){
 	colors=[];
 	drawNextBlock();
 	var tmp = adjustBlock();
-	console.log(tmp);
+	//console.log(tmp);
 	drawsmallLines(tmp);
 	render(gl2,PROGRAM2,gl2.TRIANGLES);
 }

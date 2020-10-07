@@ -49,6 +49,10 @@ var lastHit,Paused=0;
 window.onload = function(){
 	document.getElementById("BtnStart").onclick=function(){
 		document.onkeypress=dealKB;
+		if(INGAME&&MainInt!=null){
+			MainInt = clearInterval(MainInt);
+			INGAME=false;
+		}
 		BeginNewGame();
 	}
 	
