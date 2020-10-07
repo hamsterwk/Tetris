@@ -5,6 +5,7 @@
 <script type="text/javascript" src="./Common/webgl-utils.js"></script>
 <script type="text/javascript" src="./Common/initShaders.js"></script>
 <script type="text/javascript" src="./Class/tetris.js"></script>
+<script type="text/javascript" src="./Class/Block.js"></script>
 <script id="vertex-shader" type="x-shader/x-vertex">
 attribute vec4 vPosition;
 attribute vec4 vcolor;
@@ -16,7 +17,7 @@ main()
 {
 	fcolor=vcolor;
 	gl_Position=vPosition;
-	gl_PointSize=1.0;
+	gl_PointSize=2.0;
 	
 }
 </script>
@@ -33,15 +34,28 @@ main()
 </script>
 
 
-<script type="text/javascript">
-</script>
+<script type="text/javascript" src="./Class/action.js"></script>
+<link rel="stylesheet" type="text/css" href="main.css">
+
 </head>
 
 <body>
+<div id="background">
 <canvas id="gl-canvas" width="512" height="512">
 Oops ... your browser doesn't support the HTML5 canvas element
 </canvas>
-<br></br>
-<span id="keyId">5</span>
+</div>
+<div id="menu">
+<div id="hint">
+<span id="hintWord">提示：A:左移动，D:右移动，S：加速下落，Q，E：旋转</span>
+</div>
+当前得分：<span id="Score">5</span>
+</div>
+
+<div id="Btn">
+<div id="BtnWord">
+开始新游戏
+</div>
+</div>
 </body>
 </html>

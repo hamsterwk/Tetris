@@ -1,0 +1,28 @@
+body{
+	width:532px;
+}
+
+#gl-canvas{
+	margin:10px;
+	background-color: #000000;
+}
+#background{
+	width:532px;
+	background-color: #A12F2F;
+}
+#Btn{
+	margin-right:auto;
+	margin-left:auto;
+	width:200px;
+	height:60px;
+	background-color: #A12F2F;
+	text-align:center;
+	font-size:30px;
+}
+#menu{
+	font-size:20px;
+}
+#BtnWord{
+	position: relative;
+	top:20%;
+}
