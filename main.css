@@ -1,28 +1,60 @@
 body{
-	width:532px;
 }
 
 #gl-canvas{
+	float:left;
+	width:512px;
 	margin:10px;
-	background-color: #000000;
+	background-color: #FFF5F7;
+}
+#gl-incoming{
+	width:128px;
+	background-color: #FFF5F7;
 }
 #background{
-	width:532px;
-	background-color: #A12F2F;
+	border-radius: 5px;
+	width:680px;
+	height:532px;
+	background-color: #B2C8BB;
 }
-#Btn{
-	margin-right:auto;
-	margin-left:auto;
-	width:200px;
-	height:60px;
-	background-color: #A12F2F;
+
+#inComingBackground{
+	width:128px;
+	height:128px;
+	margin:5px;
+	background-color: #B2C8BB;
+}
+
+.Btn{
+	border-radius: 5px;
+	background-color: #458994;
+	color: #FFF5F7;
+	margin-right:3px;
+	margin-left:3px;
+	margin-top:5px;
+	margin-bottom:5px;
+	padding:3px;
 	text-align:center;
-	font-size:30px;
 }
 #menu{
+	margin:3px;
+	float:left;
 	font-size:20px;
 }
-#BtnWord{
-	position: relative;
-	top:20%;
+
+#score{
+	border-radius: 5px;
+	background-color: #458994;
+	color: #FFF5F7;
+	text-align:center;
+	margin:3px;
+	padding:3px;
+}
+
+#hint{
+	border-radius: 5px;
+	background-color: #458994;
+	color: #FFF5F7;
+	margin:3px;
+	padding:3px;
 }

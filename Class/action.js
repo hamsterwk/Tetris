@@ -7,6 +7,9 @@ function dealKB(e){
 	if(curTime-lastHit<DELAYED_TIME){
 		return;
 	}
+	
+	if(Paused==1&&key!="p")return;
+	
 	lastHit=curTime;
 	//document.getElementById("keyId").innerText = key;
 	switch(key){
@@ -35,15 +38,33 @@ function dealKB(e){
 			curBlock.rotate(1);
 			refresh();
 			break;
+		case "p":
+			BtnPause.click();
+			break;
 	}
 }
 
-var lastHit;
+var lastHit,Paused=0;
 
 window.onload = function(){
-	document.getElementById("Btn").onclick=function(){
+	document.getElementById("BtnStart").onclick=function(){
 		document.onkeypress=dealKB;
 		BeginNewGame();
 	}
+	
+	var BtnPause = document.getElementById("BtnPause");
+	
+	BtnPause.onclick=function(){
+		if(!INGAME)return;
+		if(Paused){
+			RecoverGame();
+			BtnPause.innerText="Pause Game";
+		}
+		else{
+			PauseGame();
+			BtnPause.innerText="Continue";
+		}
+	}
 	lastHit =new Date().getTime();
+	
 }

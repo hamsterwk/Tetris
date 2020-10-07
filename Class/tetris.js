@@ -1,19 +1,18 @@
 "use strict";
 
-var canvas,PROGRAM;
-var gl;
+var canvas,PROGRAM,PROGRAM2;
+var gl,gl2;
 var points = [],colors=[]; 
-var renderDepth;
 var angle;
 var renderType;
 var BLOCK_SIZE=32;
 var vertices,baseColors;
 var WIDTH=512,HEIGHT=512;
 var LINE_WIDTH=1;
-var curBlock=null;
+var curBlock=null;var nextBlock;
 var TimeInt=500;
 var Board=[];
-var COL,ROW;
+var COL,ROW,INGAME;
 var MainInt,score=0;
 function BeginNewGame()
 {
@@ -25,7 +24,18 @@ function BeginNewGame()
 	//preRender();
 	
 	MainInt = setInterval(Main,TimeInt);
+	//console.log(MainInt);
 };
+
+function PauseGame(){
+	MainInt = clearInterval(MainInt);
+	Paused=1;
+}
+
+function RecoverGame(){
+	MainInt = setInterval(Main,TimeInt);
+	Paused=0;
+}
 
 function RGB(R,G,B){
 	return vec3(R/255,G/255,B/255);
@@ -53,15 +63,16 @@ function randomColor(){
 
 
 
-function Vec2(x,y){
+function Vec2(x,y,tx=0,ty=0){
 	//console.log(x,y);
-	var newX = 2*x/WIDTH-1;
-	var newY = 2*y/HEIGHT-1;
+	var newX = 2*x/WIDTH-1+tx;
+	var newY = 2*y/HEIGHT-1+ty;
 	//console.log(newX,newY);
 	return vec2(newX,newY);
 }
 
 function Init(){
+	INGAME=true;
 	points=[];
 	colors=[];
 	Board=[];
@@ -77,9 +88,20 @@ function Init(){
 	gl.viewport( 0, 0, canvas.width, canvas.height );
 	PROGRAM = initShaders( gl, "vertex-shader", "fragment-shader" );
 	gl.useProgram( PROGRAM );
+	
+	canvas = document.getElementById( "gl-incoming" );
+	gl2 = WebGLUtils.setupWebGL( canvas );
+	if ( !gl2 ) { alert( "WebGL isn't available" ); }
+	gl2.clearColor( 1.0, 1.0, 1.0, 1.0 );
+	gl2.viewport( 0, 0, canvas.width, canvas.height );
+	PROGRAM2 = initShaders( gl2, "vertex-shader", "fragment-shader" );
+	gl2.useProgram( PROGRAM2 );
+	
 	COL = WIDTH/BLOCK_SIZE;
 	ROW = HEIGHT/BLOCK_SIZE;
 	for(var i=0;i<(WIDTH*HEIGHT)/(BLOCK_SIZE*BLOCK_SIZE);i++)Board.push(COLOR_NONE);
+	
+	nextBlock = new Block(randomType(),randomColor(),randomInt(8),0);
 	
 	/*for(var i=0;i<1;i++){
 		for(var j=0;j<8;j++){
@@ -100,9 +122,12 @@ function drawFrame(){
 	}
 }
 
+
+
 function moveBlock(){
 	if(curBlock==null){
-		curBlock = new Block(randomType(),randomColor(),randomInt(8),0);
+		curBlock = nextBlock;
+		nextBlock = new Block(randomType(),randomColor(),randomInt(8),0);
 		if(SetBlock(curBlock)==false)return -1;
 		return 1;
 	}else{
@@ -136,19 +161,48 @@ function clearFull(){
 	document.getElementById("Score").innerText=score;
 }
 
+function drawNextBlock(){
+	nextBlock.draw();
+}
+
+function adjustBlock(){
+	var tmpx=0.0,tmpy=0.0;
+	for(var i=0;i<points.length;i++){
+		var point=points[i];
+		tmpx+=point[0];
+		tmpy+=point[1];
+	}
+	tmpx/=points.length;
+	tmpy/=points.length;
+	for(var i=0;i<points.length;i++){
+		var point=points[i];
+		points[i]=[ point[0]-tmpx,point[1]-tmpy ];
+	}
+	return [tmpx,tmpy];
+}
+
 function Main(){
 	var result = moveBlock();
 	//console.log(result);
 	if(result==-1){
 		alert("You Lose....");
 		MainInt = clearInterval(MainInt);
+		MainInt = null;
+		INGAME=false;
 	}
 	if(result==0){
 		clearFull();
 	}
 	drawFrame();
 	drawLines();
-	render(gl.TRIANGLES);
+	render(gl,PROGRAM,gl.TRIANGLES);
+	points=[];
+	colors=[];
+	drawNextBlock();
+	var tmp = adjustBlock();
+	console.log(tmp);
+	drawsmallLines(tmp);
+	render(gl2,PROGRAM2,gl2.TRIANGLES);
 }
 
 function refresh(){
@@ -156,10 +210,16 @@ function refresh(){
 	colors=[];
 	drawFrame();
 	drawLines();
-	render(gl.TRIANGLES);
+	render(gl,PROGRAM,gl.TRIANGLES);
+	points=[];
+	colors=[];
+	drawNextBlock();
+	var tmp = adjustBlock();
+	drawsmallLines(tmp);
+	render(gl2,PROGRAM2,gl2.TRIANGLES);
 }
 
-function render(type) {
+function render(gl,PROGRAM,type) {
 	
 	gl.clearColor( 1.0, 1.0, 1.0, 1.0 );
 	gl.clear( gl.COLOR_BUFFER_BIT );

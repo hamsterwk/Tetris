@@ -9,11 +9,12 @@ function DrawTriangle(A,B,C,col){
 }
 
 function DrawSquare(x,y,color){
-	y=HEIGHT/BLOCK_SIZE-y-1;
+	var sz = BLOCK_SIZE;
+	y=HEIGHT/sz-y-1;
 	//console.log(x,y);
 	//在坐标（X，Y）处放置一个正方形
-	var sX = x*BLOCK_SIZE,sY = y*BLOCK_SIZE;
-	var tX = sX+BLOCK_SIZE,tY = sY+BLOCK_SIZE;
+	var sX = x*sz,sY = y*sz;
+	var tX = sX+sz,tY = sY+sz;
 	var A = Vec2(sX,sY);
 	var B = Vec2(sX,tY);
 	var C = Vec2(tX,tY);
@@ -21,6 +22,20 @@ function DrawSquare(x,y,color){
 	DrawTriangle(A,B,C,color);
 	DrawTriangle(A,D,C,color);
 }
+
+function DrawSmallSquare(x,y,color){
+	var sz = BLOCK_SIZE*4;
+	y=HEIGHT/sz-y-1;
+	var sX = x*sz,sY = y*sz;
+	var tX = sX+sz,tY = sY+sz;
+	var A = Vec2(sX,sY);
+	var B = Vec2(sX,tY);
+	var C = Vec2(tX,tY);
+	var D = Vec2(tX,sY);
+	DrawTriangle(A,B,C,color);
+	DrawTriangle(A,D,C,color);
+}
+
 
 function DrawAnySquare(sx,sy,tx,ty,color){
 	var A = Vec2(sx,sy);
@@ -54,13 +69,19 @@ Shapes = [
    [0, 1, 4, 8], [0, 1, 2, 6 ], [1, 5, 8, 9], [0, 4, 5, 6],  // L 11
    [1, 5, 8, 9], [0, 4, 5, 6 ], [1, 2, 5, 9], [0, 1, 2, 6],  // 7 15
 ];
-
 var dx=[0,0,-1,1,0];
 var dy=[1,-1,0,0,0];
 //0: down 1: up(?) 2: left 3:right
 
 var RotPre=[0,2,1,4,3,6,5,10,7,8,9,14,11,12,13,18,15,16,17];
 var RotNt =[0,2,1,4,3,6,5,8,9,10,7,12,13,14,11,16,17,18,15];
+/*
+0123
+4567
+89AB
+CDEF
+*/
+
 var ShapeTypes=[
 [0],[1,2],[3,4],[5,6],[7,8,9,10],[11,12,13,14],[15,16,17,18]
 ];
@@ -84,15 +105,7 @@ function Block(type,color,x,y){
 	this.movable=true;
 	this.shape=Shapes[type];
 	this.place=[x,y];
-	this.draw=function drawBlock(){
-		for(var i=0;i<this.shape.length;i++){
-			var v=this.shape[i];
-			var tx=this.place[0]+v%4;
-			var ty=this.place[1]+Math.floor(v/4);
-			//console.log(tx,ty);
-			DrawSquare(tx,ty,this.color);
-		}
-	}
+
 	
 	
 	this.move=function move(dir){
@@ -192,7 +205,15 @@ function Block(type,color,x,y){
 		}
 	}
 	
-	
+	this.draw=function drawBlock(){
+		for(var i=0;i<this.shape.length;i++){
+			var v=this.shape[i];
+			var tx=v%4;
+			var ty=Math.floor(v/4);
+			//console.log(tx,ty);
+			DrawSmallSquare(tx,ty,this.color);
+		}
+	}
 }
 
 function SetBlock(block){
@@ -213,6 +234,7 @@ function SetBlock(block){
 		Board[Id]=block.color;
 	}
 	return true;
+	
 }
 
 function drawLines(){
@@ -226,3 +248,14 @@ function drawLines(){
 	}
 }
 
+function drawsmallLines(tmp){
+	var LINE_WIDTH=5;
+	for(var i=-5;i<6;i++){
+		var x=i*BLOCK_SIZE*4-tmp[0]*WIDTH/2;
+		DrawAnySquare(x-LINE_WIDTH,0,x+LINE_WIDTH,WIDTH,LINECOLOR);
+	}
+	for(var i=-5;i<6;i++){
+		var y=i*BLOCK_SIZE*4-tmp[1]*HEIGHT/2;
+		DrawAnySquare(0,y-LINE_WIDTH,HEIGHT,y+LINE_WIDTH,LINECOLOR);
+	}
+}

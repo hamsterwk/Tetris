@@ -44,22 +44,41 @@ main()
 <canvas id="gl-canvas" width="512" height="512">
 Oops ... your browser doesn't support the HTML5 canvas element
 </canvas>
-</div>
+
 <div id="menu">
+<div class="Btn">
+Incomming:
+</div>
+<div id="inComingBackground">
+<canvas id="gl-incoming" width="128" height="128">
+Oops ... your browser doesn't support the HTML5 canvas element
+</canvas>
+</div>
+<div id="score">
+Score：<span id="Score">0</span>
+</div>
 <div id="hint">
 <span id="hintWord">Hint:</span><br>
 <span id="hintWord">A: Left</span><br>
 <span id="hintWord">D: Right</span><br>
 <span id="hintWord">S: Down</span><br>
 <span id="hintWord">Q, E: Rotate</span><br>
+<span id="hintWord">P: Pause/Go</span><br>
 </div>
-Score：<span id="Score">0</span>
-</div>
-
-<div id="Btn">
-<div id="BtnWord">
+<div id="BtnStart" class="Btn">
 Start Game
 </div>
+<div id="BtnPause" class="Btn">
+Pause Game
 </div>
+
+<div id="Credits" class="Btn" style="margin-top:10px;">
+Made By<br>Hamsterw
+</div>
+</div>
+
+
+</div>
+
 </body>
 </html>
