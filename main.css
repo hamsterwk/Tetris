@@ -1,26 +1,23 @@
-body{
-}
+
 
 #gl-canvas{
 	float:left;
-	width:512px;
+	width:70%;
 	margin:10px;
 	background-color: #FFF5F7;
 }
 #gl-incoming{
-	width:128px;
+	width:100%;
 	background-color: #FFF5F7;
 }
 #background{
 	border-radius: 5px;
-	width:680px;
-	height:532px;
+	width:100vmin;
+	height:78.23vmin;
 	background-color: #B2C8BB;
 }
 
 #inComingBackground{
-	width:128px;
-	height:128px;
 	margin:5px;
 	background-color: #B2C8BB;
 }
@@ -38,8 +35,9 @@ body{
 }
 #menu{
 	margin:3px;
-	float:left;
-	font-size:20px;
+	float:right;
+	width:19%;
+	font-size:1rem;
 }
 
 #score{
